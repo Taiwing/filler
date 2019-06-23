@@ -6,12 +6,13 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 09:41:15 by yforeau           #+#    #+#             */
-/*   Updated: 2019/06/14 12:07:42 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/06/14 13:54:17 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "double_arrays.h"
 #include "filler_parser.h"
+#include "filler_solver.h"
 #include "libft.h"
 
 void	write_mst(t_filldata *mst)
@@ -43,7 +44,7 @@ int	main(void)
 	//	write_mst(mst);	//debug
 		mst->answerx = 0;
 		mst->answery = 0;
-//		sub_solver(mst);
+		filler_solver(mst);
 		ft_printf("%d %d\n", mst->answerx, mst->answery);
 		if (mst->board)
 			free_double_array((void ***)&mst->board);
