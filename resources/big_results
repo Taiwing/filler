@@ -1,0 +1,7 @@
+./test.sh -b -n 1000 -s 30 25 ../yforeau.filler ../../Feel-Her/champion/cgiron-yforeau.filler
+yforeau.filler: 1030
+cgiron-yforeau.filler: 957
+
+./test.sh -b -n 1000 -s 100 100 ../yforeau.filler ../../Feel-Her/champion/cgiron-yforeau.filler
+yforeau.filler: 902
+cgiron-yforeau.filler: 989

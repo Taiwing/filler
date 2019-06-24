@@ -1,0 +1,33 @@
+#!/bin/bash
+
+function pad_number()
+{
+	if [ $1 -lt 10 ]; then
+		echo -en "000$1"
+	elif [ $1 -lt 100 ]; then
+		echo -en "00$1"
+	elif [ $1 -lt 1000 ]; then
+		echo -en "0$1"
+	else
+		echo -en "$1"
+	fi
+}
+
+i=0
+while [ 42 ]; do
+	istr="$(pad_number $i)"
+	istr1="$(pad_number $((i+1)))"
+	map="round_${istr}_map"
+	outa="round_${istr}_output_a"
+	outb="round_${istr}_output_b"
+	map1="round_${istr1}_map"
+	outa1="round_${istr1}_output_a"
+	outb1="round_${istr1}_output_b"
+	if [ -f "$map" ]; then
+		while [ ! -f "$map1" ]; do
+			sleep 1
+		done
+		rm $map $outa $outb
+	fi
+	((i++))
+done

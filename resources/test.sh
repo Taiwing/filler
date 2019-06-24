@@ -6,7 +6,7 @@
 #    By: cgiron <cgiron@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 16:09:15 by cgiron            #+#    #+#              #
-#    Updated: 2019/06/14 11:11:48 by yforeau          ###   ########.fr        #
+#    Updated: 2019/06/24 08:52:59 by yforeau          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ n_turns=10
 map=test_maps/test
 out_dir=output_tests
 map_gen=map_gen/map_gen
-visualizer=../filler_visualiser
+vm=./filler_vm
+visualizer=../../Feel-Her/filler_visualiser
 KEEP_OUTPUT=1
 RAND_MAP=1
 WATCH_PROMPT=1
@@ -105,6 +106,10 @@ mkdir -p $out_dir
 while [ $i -lt $n_turns ]
 do
 	if [ $((i+1)) -lt 10 ]; then
+		istr="000$((i+1))"
+	elif [ $((i+1)) -lt 100 ]; then
+		istr="00$((i+1))"
+	elif [ $((i+1)) -lt 1000 ]; then
 		istr="0$((i+1))"
 	else
 		istr="$((i+1))"
@@ -128,10 +133,10 @@ do
 			pstr2=$player1
 		fi
 		if [ $j -eq 1 ]; then
-			./filler_vm -s $seed -f $map -p1 $pstr1 -p2 $pstr2\
+			$vm -s $seed -f $map -p1 $pstr1 -p2 $pstr2\
 				 &> $out_dir/round_"$istr"_output_a
 		else
-			(echo '$$$ invert' && ./filler_vm -s $seed -f $map -p1 $pstr1\
+			(echo '$$$ invert' && $vm -s $seed -f $map -p1 $pstr1\
 				 -p2 $pstr2) &> $out_dir/round_"$istr"_output_b
 		fi
 		result=$(cat filler.trace | grep AGAINST | sed -e 's/AGAINST/ /g')
