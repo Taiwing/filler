@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 09:41:15 by yforeau           #+#    #+#             */
-/*   Updated: 2019/06/14 13:54:17 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/06/24 03:32:13 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	main(void)
 		mst->answerx = 0;
 		mst->answery = 0;
 		filler_solver(mst);
-		ft_printf("%d %d\n", mst->answerx, mst->answery);
+		ft_printf("%d %d\n", mst->answery, mst->answerx);
 		if (mst->board)
 			free_double_array((void ***)&mst->board);
 		if (mst->token)
