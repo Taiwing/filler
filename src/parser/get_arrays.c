@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 11:17:49 by yforeau           #+#    #+#             */
-/*   Updated: 2019/06/14 11:51:21 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/06/24 01:58:26 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ int			get_board(t_filldata *mst)
 	char	*line;
 
 	line = NULL;
-	if (get_next_line(0, &line) < 0)
+	if (get_next_line(0, &line) <= 0)
 		return (1);
 	free(line);
 	if (!(mst->board = (int **)alloc_double_array(mst->board_width,
 			mst->board_height, sizeof(int))))
 		return (1);
 	i = 0;
-	while (i < mst->board_height && get_next_line(0, &line) > -1)
+	while (i < mst->board_height && get_next_line(0, &line) > 0)
 	{
 		if (ft_strlen(line) < 4
 			|| fill_board(mst, line + 4, mst->board[i++], mst->board_width))
@@ -90,7 +90,7 @@ int			get_token(t_filldata *mst)
 			mst->token_height, sizeof(char))))
 		return (1);
 	i = 0;
-	while (i < mst->token_height && get_next_line(0, &line) > -1)
+	while (i < mst->token_height && get_next_line(0, &line) > 0)
 	{
 		if (fill_token(line, mst->token[i++], mst->token_width))
 		{

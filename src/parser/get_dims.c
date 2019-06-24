@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 11:17:58 by yforeau           #+#    #+#             */
-/*   Updated: 2019/06/14 11:50:21 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/06/24 01:54:26 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int			get_token_dims(t_filldata *mst)
 
 	c = 0;
 	line = NULL;
-	if (get_next_line(0, &line) < 0)
+	if (get_next_line(0, &line) <= 0)
 		return (1);
 	if (ft_strncmp(line, "Piece ", 6))
 	{

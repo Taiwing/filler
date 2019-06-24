@@ -54,7 +54,7 @@ filler_parser.o: double_arrays.h filler_parser.h t_filldata.h libft.h
 get_arrays.o: double_arrays.h t_filldata.h libft.h
 get_dims.o: t_filldata.h libft.h
 get_player.o: t_filldata.h libft.h
-filler_solver.o: t_filldata.h heat_map.h
+filler_solver.o: t_filldata.h heat_map.h libft.h
 heat_map.o: t_filldata.h
 %.o: %.c
 	@mkdir -p $(ODIR)

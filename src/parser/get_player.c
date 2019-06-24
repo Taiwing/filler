@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 11:18:12 by yforeau           #+#    #+#             */
-/*   Updated: 2019/06/14 11:50:16 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/06/24 02:28:14 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	get_player(t_filldata *mst)
 		&& (ptr = ft_strchr(line + 15, ']'))
 		&& !ptr[1])
 		mst->player = line[10] == '1' ? P_O : P_X;
-	if (r >= 0)
+	if (r > 0)
 		free(line);
 	return (!mst->player);
 }
