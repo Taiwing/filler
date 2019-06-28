@@ -1,3 +1,1 @@
-- move libft outside of src to the root of the project. Genmake will have
-  to be modified to handle subprojects anywhere (even not in src or projdir ?)
 - modify the vm (visual_filler_vm) to also be a visualizer (simple, yet cool)

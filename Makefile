@@ -6,8 +6,8 @@ CFLAGS		=	-Wall -Wextra -Werror
 HDIR		=	includes
 SRCDIR		=	src
 SUB1D		=	libft
-HFLAGS		=	-I $(HDIR) -I $(SRCDIR)/$(SUB1D)/$(HDIR)
-LIBS		=	$(SRCDIR)/$(SUB1D)/libft.a
+HFLAGS		=	-I $(HDIR) -I $(SUB1D)/$(HDIR)
+LIBS		=	$(SUB1D)/libft.a
 NAME		=	yforeau.filler
 
 ############################## SOURCES #########################################
@@ -33,7 +33,7 @@ OBJ				=	$(patsubst %.c,%.o,$(PARSERC))\
 
 vpath			%.o	$(ODIR)
 vpath			%.h	$(HDIR)
-vpath			%.h	$(SRCDIR)/$(SUB1D)/$(HDIR)
+vpath			%.h	$(SUB1D)/$(HDIR)
 vpath			%.c	$(SRCDIR)/$(PARSERDIR)
 vpath			%.c	$(SRCDIR)/$(SOLVERDIR)
 vpath			%.c	$(SRCDIR)
@@ -42,11 +42,11 @@ vpath			%.c	$(SRCDIR)
 
 all: $(NAME)
 
-$(NAME): $(SRCDIR)/$(SUB1D)/libft.a $(ODIR) $(OBJ)
+$(NAME): $(SUB1D)/libft.a $(ODIR) $(OBJ)
 	$(CC) $(CFLAGS) -o $@ $(patsubst %.o,$(ODIR)/%.o,$(OBJ)) $(LIBS)
 
-$(SRCDIR)/$(SUB1D)/libft.a:
-	make -C $(SRCDIR)/$(SUB1D)
+$(SUB1D)/libft.a:
+	make -C $(SUB1D)
 
 main.o: double_arrays.h filler_parser.h t_filldata.h filler_solver.h libft.h
 double_arrays.o: libft.h double_arrays.h
@@ -67,7 +67,7 @@ $(ODIR):
 
 clean:
 	rm -rf $(ODIR)
-	make -C $(SRCDIR)/$(SUB1D) fclean
+	make -C $(SUB1D) fclean
 
 fclean: clean
 	rm -f $(NAME)
