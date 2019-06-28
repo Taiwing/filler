@@ -18,6 +18,7 @@ tty_settings = `stty -g`
 system "stty -echo -icanon"
 
 class Plateau
+	attr_accessor :map_row
 	def initialize(map_path, seed, trace)
 		if (seed < 0)
 			seed = Random.new_seed % 10000
@@ -138,15 +139,17 @@ class Plateau
 		for j in 0..(@piece_row - 1)
 			for i in 0..(@piece_col - 1)
 				if (piece_char(i, j) == '*')
-					fd.printf "\033[%d;%dH%s", j + y + 4, i + x + 5, piece_char
+					fd.printf "\033[%d;%dH%s", j + y + 5, i + x + 5, piece_char
 				end
 			end
 		end
-		
-		fd.printf "\033[%d;1H", @map_row + 4
+		fd.printf "\033[%d;1H", @map_row + 5
 	end
 	
 	def show_mapcontent_to_player(fd, piece_char = nil, y = 0, x = 0)
+		if (fd == $stdout)
+			fd.write "\n"
+		end
 		fd.write "Plateau #{@map_row} #{@map_col}:\n"
 
 		fd.write "    "
@@ -330,9 +333,11 @@ class Player
 		end
 	end
 
-	def end_player(trace)
+	def end_player(trace, map_row)
 		if (self.live > 0)
 			self.live = 0
+			self.print_status($stdout)
+			$stdout.printf "\033[%d;1H", map_row + 5
 			if self.stdin != STDOUT
 				self.stdin.close
 				@stdout.close
@@ -349,10 +354,32 @@ class Player
 			end
 		end
 	end
+
 	def score_show()
 		puts "== #{self.piece_char} fin: " + self.score.to_s
 		if @segfault != nil
 		   puts "#{self.file_name} #{@segfault}"
+		end
+	end
+
+	def print_status(fd)
+		y = 0
+		i = -1
+		color = ""
+		if (self.piece_char == 'O')
+			i = 0
+			y = 1
+			color = "\033[31m"
+		elsif (self.piece_char == 'X')
+			i = 1
+			y = 2
+			color = "\033[34m"
+		end
+		fd.printf "\033[%d;1H$$$ exec p%d : [%s%s\033[0m] ", y, i, color, self.file_name
+		if (self.live > 0)
+			fd.printf("live")
+		else
+			fd.printf("dead")
 		end
 	end
 end
@@ -522,10 +549,6 @@ if __FILE__ == $0
 			player.launch
 			i = i + 1
 			player.write_to_player("$$$ exec p#{i} : [#{player.file_name}]\n")
-
-			if (init.verbose > 0)
-				puts "$$$ exec p#{i} : [#{player.file_name}]\n"
-			end
 		end
 
 		if init.interactif && players[0].nil?
@@ -535,26 +558,29 @@ if __FILE__ == $0
 
 		if (init.verbose > 0)
 			puts "\033[H\033[2J"
+			for player in players
+				player.print_status($stdout)
+			end
 			map.show_mapcontent_to_player($stdout)
 		end
 
 		fast = 0
 		while all_lose(players, trace)
 			for player in players
-				input = ""
-				if (fast == 0 || (fast == 1 && (players[0].live == 0 || players[1].live == 0)))
-					while (input != ' ' && input != 'l' && input != 'p')
-						input = STDIN.readchar
-					end
-					if (input == ' ')
-						fast = 0
-					elsif (input == 'l')
-						fast = 1
-					elsif (input == 'p')
-						fast = 2
-					end
-				end
 				if (player.live > 0)
+					input = ""
+					if (fast == 0 || (fast == 1 && (players[0].live == 0 || players[1].live == 0)))
+						while (input != ' ' && input != 'l' && input != 'p')
+							input = STDIN.readchar
+						end
+						if (input == ' ')
+							fast = 0
+						elsif (input == 'l')
+							fast = 1
+						elsif (input == 'p')
+							fast = 2
+						end
+					end
 					map.gene_piece()
                                   begin
 					if init.interactif == 0
@@ -563,7 +589,7 @@ if __FILE__ == $0
 					map.show_piececontent(player.stdin)
 
                                   rescue
-                                    player.end_player(trace)
+                                    player.end_player(trace, map.map_row)
                                   end
 					begin
 						player_time = Timeout::timeout(init.time) do
@@ -572,19 +598,19 @@ if __FILE__ == $0
 					rescue Timeout::Error
 						puts "Player with #{player.piece_char}: timedout"
 						trace.trace_msg "#{player.piece_char}: timedout\n"
-						player.end_player trace
+						player.end_player(trace, map.map_row)
 					end
 					if (player.live > 0 && (nb = @line.gsub(/\s+/m, ' ').strip.split(" ")).length != 2)
 						puts "Player with #{player.piece_char}: error on input"
 						trace.trace_msg "#{player.piece_char}: error on input\n"
-						player.end_player trace
+						player.end_player(trace, map.map_row)
 					end
 
 					if (player.live > 0 && map.check_placement(nb[0].to_i, nb[1].to_i, player.piece_char) == 1)
 						map.change_data(nb[0].to_i, nb[1].to_i, player.piece_char)
 						player.score += 1
 					else
-						player.end_player trace
+						player.end_player(trace, map.map_row)
 					end
 
 					if (init.verbose > 0 && player.live > 0)
