@@ -375,7 +375,7 @@ class Player
 			y = 2
 			color = "\033[34m"
 		end
-		fd.printf "\033[%d;1H$$$ exec p%d : [%s%s\033[0m] ", y, i, color, self.file_name
+		fd.printf "\033[%d;1H$$$ exec p%d : [%s%s\033[0m] ", y, i + 1, color, self.file_name
 		if (self.live > 0)
 			fd.printf("live")
 		else
@@ -625,6 +625,11 @@ if __FILE__ == $0
 		end
 
 		trace.the_end players
+
+		$stdout.puts("press any key to leave...")
+		input = STDIN.readchar
+		system "stty #{tty_settings}"
+
 		if init.challenger != nil
 			if (players[0].score < players[1].score)
 				exit 2
@@ -638,5 +643,3 @@ if __FILE__ == $0
 	 	exit -42
 	 end
 end
-
-system "stty #{tty_settings}"

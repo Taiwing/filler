@@ -6,7 +6,7 @@
 #    By: cgiron <cgiron@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 16:09:15 by cgiron            #+#    #+#              #
-#    Updated: 2019/06/28 12:03:09 by yforeau          ###   ########.fr        #
+#    Updated: 2019/06/28 12:21:50 by yforeau          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -158,12 +158,14 @@ do
 			((total--))
 		fi
 	done
-	if [ $total -eq 2 ]; then
-		echo "\033[0;32m$player1 (p1) won the round !\033[0m"
-	elif [ $total -eq -2 ]; then
-		echo "\033[0;31m$player2 (p2) won the round !\033[0m"
-	else
-		echo "no clear winer..."
+	if [ $VISUALIZE -eq 0 ]; then
+		if [ $total -eq 2 ]; then
+			echo "\033[0;32m$player1 (p1) won the round !\033[0m"
+		elif [ $total -eq -2 ]; then
+			echo "\033[0;31m$player2 (p2) won the round !\033[0m"
+		else
+			echo "no clear winer..."
+		fi
 	fi
 	echo
 	((i++))
