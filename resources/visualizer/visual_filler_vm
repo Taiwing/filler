@@ -125,7 +125,36 @@ class Plateau
 		end
 	end
 
-	def show_mapcontent(fd, piece_char = nil, y = 0, x = 0)
+	def visualize_game(fd, piece_char = nil, y = 0, x = 0)
+		if (piece_char == 'O')
+			piece_char = "\033[31mO\033[0m"
+		elsif (piece_char == 'X')
+			piece_char = "\033[34mX\033[0m"
+		end
+
+#		@map_table.each_with_index do |line, row|
+#			col = 0
+#			while (col < line.length)
+#				if (col >= x &&
+#					col < (x + @piece_col) &&
+#					@piece_content[(row - y) * @piece_col + (col - x)] == '*')
+#					fd.printf "\033[%d;%dH%s", y + 4, x + 5, piece_char
+#				end
+#				col += 1
+#			end
+#		end
+		for j in 0..(@piece_row - 1)
+			for i in 0..(@piece_col - 1)
+				if (piece_char(i, j) == '*')
+					fd.printf "\033[%d;%dH%s", j + y + 4, i + x + 5, piece_char
+				end
+			end
+		end
+		
+		fd.printf "\033[%d;1H", @map_row + 4
+	end
+	
+	def show_mapcontent_to_player(fd, piece_char = nil, y = 0, x = 0)
 		fd.write "Plateau #{@map_row} #{@map_col}:\n"
 
 		fd.write "    "
@@ -214,10 +243,6 @@ class Plateau
 	end
 
 	def check_placement(row, col, char)
-
-		#if (row < 0 || col < 0)
-		#	return 2
-		#end
 
 		empty_lines = is_empty_line()
 		empty_cols = is_empty_col()
@@ -505,7 +530,8 @@ if __FILE__ == $0
 
 
 		if (init.verbose > 0)
-			map.show_mapcontent($stdout)
+			puts "\033[H\033[2J"
+			map.show_mapcontent_to_player($stdout)
 		end
 
 		while all_lose(players, trace)
@@ -514,13 +540,10 @@ if __FILE__ == $0
 					map.gene_piece()
                                   begin
 					if init.interactif == 0
-						map.show_mapcontent(player.stdin)
+						map.show_mapcontent_to_player(player.stdin)
 					end
 					map.show_piececontent(player.stdin)
 
-					if (init.verbose > 0 && init.interactif == 0)
-						map.show_piececontent($stdout)
-					end
                                   rescue
                                     player.end_player(trace)
                                   end
@@ -539,10 +562,6 @@ if __FILE__ == $0
 						player.end_player trace
 					end
 
-					if (player.live > 0 && init.verbose > 0)
-						puts "<got (#{player.piece_char}): [#{nb[0]}, #{nb[1]}]"
-					end
-
 					if (player.live > 0 && map.check_placement(nb[0].to_i, nb[1].to_i, player.piece_char) == 1)
 						map.change_data(nb[0].to_i, nb[1].to_i, player.piece_char)
 						player.score += 1
@@ -551,14 +570,15 @@ if __FILE__ == $0
 					end
 
 					if (init.verbose > 0 && player.live > 0)
-						map.show_mapcontent($stdout, player.piece_char.downcase, nb[0].to_i, nb[1].to_i)
+						map.visualize_game($stdout, player.piece_char, nb[0].to_i, nb[1].to_i)
+#						sleep(2)
 					end
 				end
 			end
 		end
 
 		for player in players
-		player.score_show()
+			player.score_show()
 		end
 
 		trace.the_end players
