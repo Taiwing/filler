@@ -6,7 +6,7 @@
 #    By: cgiron <cgiron@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 16:09:15 by cgiron            #+#    #+#              #
-#    Updated: 2019/06/24 08:52:59 by yforeau          ###   ########.fr        #
+#    Updated: 2019/06/28 04:15:20 by yforeau          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@
 player1=""
 player2=""
 n_turns=10
-map=test_maps/test
+map=""
 out_dir=output_tests
 map_gen=map_gen/map_gen
 vm=./filler_vm
@@ -39,13 +39,9 @@ function usage
 	printf "usage: test.sh p1 p2 [-n turns] [-m map] [-s width height] [-rkhb]\n\n"
 	printf "	-h | --help:	Print this.\n"
 	printf "	-n | --turns:	Number of turns.\n"
-	printf "	-m | --map:	Give a map to 'test.sh'.\n"
+	printf "	-m | --map:	Give a map to 'test.sh' instead of generating them.\n"
 	printf "	-s | --size:	Size of the map to generate if it applies.\n"
-	printf "	-r | --random:	Generate a random map for each turn.\n"
-	printf "			It also keeps them in the $out_dir\n"
-	printf "			directory. This option supersedes the\n"
-	printf "			given map, if any.\n"
-	printf "	-k | --keep:	Keep output in $out_dir.\n"
+	printf "	-d | --delete:	Delete output after turn.\n"
 	printf "	-b | --blind:	Do not prompt for visualisation.\n"
 }
 
@@ -67,18 +63,15 @@ do
 		-m | --map )
 			shift
 			map=$1
+			RAND_MAP=0
 			;;
 		-s | --size )
 			shift
-			RAND_MAP=1
 			RAND_MAP_SIZE="$1 $2"
 			shift
 			;;
-		-r | --random )
-			RAND_MAP=1
-			;;
-		-k | --keep )
-			KEEP_OUTPUT=1
+		-d | --delete )
+			KEEP_OUTPUT=0
 			;;
 		-b | --blind )
 			WATCH_PROMPT=0
