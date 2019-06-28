@@ -542,13 +542,16 @@ if __FILE__ == $0
 		while all_lose(players, trace)
 			for player in players
 				input = ""
-				if (fast == 0)
-					while (input != ' ' && input != 'p')
-				#		input = STDIN.read(1, input)
+				if (fast == 0 || (fast == 1 && (players[0].live == 0 || players[1].live == 0)))
+					while (input != ' ' && input != 'l' && input != 'p')
 						input = STDIN.readchar
 					end
-					if (input == 'p')
+					if (input == ' ')
+						fast = 0
+					elsif (input == 'l')
 						fast = 1
+					elsif (input == 'p')
+						fast = 2
 					end
 				end
 				if (player.live > 0)
