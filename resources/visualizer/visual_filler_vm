@@ -132,17 +132,6 @@ class Plateau
 			piece_char = "\033[34mX\033[0m"
 		end
 
-#		@map_table.each_with_index do |line, row|
-#			col = 0
-#			while (col < line.length)
-#				if (col >= x &&
-#					col < (x + @piece_col) &&
-#					@piece_content[(row - y) * @piece_col + (col - x)] == '*')
-#					fd.printf "\033[%d;%dH%s", y + 4, x + 5, piece_char
-#				end
-#				col += 1
-#			end
-#		end
 		for j in 0..(@piece_row - 1)
 			for i in 0..(@piece_col - 1)
 				if (piece_char(i, j) == '*')
@@ -172,7 +161,20 @@ class Plateau
 			end
 			fd.write row.to_s + " "
 
-			if (piece_char == nil || row < y || row >= (y + @piece_row))
+			if (fd == $stdout)
+				col = 0
+				while (col < line.length)
+					if (line[col] == 'O')
+						fd.write "\033[31mO\033[0m"
+					elsif (line[col] == 'X')
+						fd.write "\033[34mX\033[0m"
+					else
+						fd.write line[col]
+					end
+					col += 1
+				end
+				fd.write "\n"
+			elsif (piece_char == nil || row < y || row >= (y + @piece_row))
 				fd.write line + "\n"
 			else
 				col = 0
