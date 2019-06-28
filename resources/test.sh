@@ -6,7 +6,7 @@
 #    By: cgiron <cgiron@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 16:09:15 by cgiron            #+#    #+#              #
-#    Updated: 2019/06/28 04:15:20 by yforeau          ###   ########.fr        #
+#    Updated: 2019/06/28 12:03:09 by yforeau          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,10 +21,10 @@ map=""
 out_dir=output_tests
 map_gen=map_gen/map_gen
 vm=./filler_vm
-visualizer=../../Feel-Her/filler_visualiser
+visualizer=visualizer/visual_filler_vm
 KEEP_OUTPUT=1
 RAND_MAP=1
-WATCH_PROMPT=1
+VISUALIZE=1
 RAND_MAP_SIZE="30 25"
 p1=0
 p2=0
@@ -74,7 +74,7 @@ do
 			KEEP_OUTPUT=0
 			;;
 		-b | --blind )
-			WATCH_PROMPT=0
+			VISUALIZE=0
 			;;
 		* )
 			if [ "$player1" == "" ]; then
@@ -90,6 +90,10 @@ done
 if [ "$player1" == "" -o "$player2" == "" ]; then
 	echo "Error: not enough players"
 	exit 1
+fi
+
+if [ $VISUALIZE -ne 0 ]; then
+	vm="${visualizer}"
 fi
 
 ################################ Main loop #####################################
@@ -125,12 +129,16 @@ do
 			pstr1=$player2
 			pstr2=$player1
 		fi
-		if [ $j -eq 1 ]; then
+		if [ $VISUALIZE -eq 1 ]; then
+			$vm -s $seed -f $map -p1 $pstr1 -p2 $pstr2
+		elif [ $KEEP_OUTPUT -eq 0 ]; then
+			$vm -s $seed -f $map -p1 $pstr1 -p2 $pstr2 &> /dev/null
+		elif [ $j -eq 1 ]; then
 			$vm -s $seed -f $map -p1 $pstr1 -p2 $pstr2\
 				 &> $out_dir/round_"$istr"_output_a
 		else
-			(echo '$$$ invert' && $vm -s $seed -f $map -p1 $pstr1\
-				 -p2 $pstr2) &> $out_dir/round_"$istr"_output_b
+			$vm -s $seed -f $map -p1 $pstr1 -p2 $pstr2\
+			 	 &> $out_dir/round_"$istr"_output_b
 		fi
 		result=$(cat filler.trace | grep AGAINST | sed -e 's/AGAINST/ /g')
 		if [ $j -eq 1 ]; then
@@ -156,17 +164,6 @@ do
 		echo "\033[0;31m$player2 (p2) won the round !\033[0m"
 	else
 		echo "no clear winer..."
-	fi
-	if [ $WATCH_PROMPT -ne 0 ]; then
-		read -p "watch round ? (y/n) " answer
-		if [ "$answer" == "y" -o "$answer" == "Y" ]; then
-			cat $out_dir/round_"$istr"_output_a | $visualizer &> /dev/null &
-			cat $out_dir/round_"$istr"_output_b | $visualizer &> /dev/null &
-		fi
-	fi
-	if [ $KEEP_OUTPUT -eq 0 ]; then
-		rm $out_dir/round_"$istr"_output_a
-		rm $out_dir/round_"$istr"_output_b
 	fi
 	echo
 	((i++))
