@@ -6,7 +6,7 @@
 #    By: cgiron <cgiron@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 16:09:15 by cgiron            #+#    #+#              #
-#    Updated: 2019/06/28 12:21:50 by yforeau          ###   ########.fr        #
+#    Updated: 2019/06/29 02:44:28 by yforeau          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ function usage
 	printf "	-m | --map:	Give a map to 'test.sh' instead of generating them.\n"
 	printf "	-s | --size:	Size of the map to generate if it applies.\n"
 	printf "	-d | --delete:	Delete output after turn.\n"
-	printf "	-b | --blind:	Do not prompt for visualisation.\n"
+	printf "	-b | --blind:	Do not prompt visualize.\n"
 }
 
 ############################# Options parser ###################################
