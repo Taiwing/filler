@@ -6,22 +6,19 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 19:37:35 by yforeau           #+#    #+#             */
-/*   Updated: 2019/01/17 13:48:13 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/06/29 04:21:01 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "getopt_errors.h"
 
-/*if current option requires an argument, this function gets it*/
 static int	get_argument(int argc, char **argv, t_optdata *d, char *tmp)
 {
 	if ((d->optarg = *d->nextchar ? d->nextchar : NULL))
 		++d->optind;
-	/*else if the option is mandatory*/
 	else if (tmp[2] != ':')
 	{
-		/*if next argument is the end of argv*/
 		if (d->optind == argc)
 		{
 			if (d->opterr)

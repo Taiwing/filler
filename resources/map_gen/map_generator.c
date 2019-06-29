@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_generator.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/29 04:26:02 by yforeau           #+#    #+#             */
+/*   Updated: 2019/06/29 04:27:39 by yforeau          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -5,7 +17,7 @@
 
 static int	random_int(int size)
 {
-	return(rand() % size);
+	return (rand() % size);
 }
 
 static void	generate_xo(int coord_x[2], int coord_o[2], int width, int height)

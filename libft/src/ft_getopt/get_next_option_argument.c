@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 17:58:46 by yforeau           #+#    #+#             */
-/*   Updated: 2019/01/17 10:53:54 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/06/29 04:21:30 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static void	handle_stop_string(int argc, char **argv, t_optdata *d)
 
 static int	*get_long_option(int argc, char **argv, t_optdata *d, int *c)
 {
-	/*then the option string begins with "--" and is a long option*/
 	if (argv[d->optind][1] == '-')
 	{
 		d->nextchar = argv[d->optind] + 2;
@@ -44,11 +43,9 @@ static int	*get_long_option(int argc, char **argv, t_optdata *d, int *c)
 	return (0);
 }
 
-/*is gonna fetch the next argument and check if it is an option*/
 int			*get_next_option_argument(int argc, char **argv,
 									t_optdata *d, int *c)
 {
-	/*in case the user moves back optind*/
 	if (d->first_nonopt > d->optind)
 		d->first_nonopt = d->optind;
 	if (d->last_nonopt > d->optind)

@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/09 10:29:39 by yforeau           #+#    #+#             */
-/*   Updated: 2019/01/10 23:31:47 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/06/29 04:21:13 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,12 @@ void	init_getopt(t_optdata *data, char *optstring,
 	data->optarg = 0;
 	data->longopts = longopts;
 	data->lopts_len = 0;
-	/*get longopts length*/
 	while (longopts && longopts->name)
 	{
 		++data->lopts_len;
 		++longopts;
 	}
 	data->longindex = longindex;
-	/*'+' sets order "LEAVE", '-' sets order "PASS"*/
 	if (*optstring == '+' || *optstring == '-')
 		data->order = *optstring++ - 42;
 	else
