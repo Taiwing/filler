@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 12:05:43 by yforeau           #+#    #+#             */
-/*   Updated: 2019/06/14 12:05:50 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/09/06 10:24:07 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ static int	exit_parser(t_filldata *mst)
 		free_double_array((void ***)&mst->board);
 	if (mst->token)
 		free_double_array((void ***)&mst->token);
-	ft_putstr("0 0\n");
+	if (!mst->round)
+		ft_putstr("0 0\n");
 	return (1);
 }
 
