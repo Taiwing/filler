@@ -1,8 +1,8 @@
 ############################## COMPILE VAR #####################################
 
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror
-#CFLAGS		=	-g
+CFLAGS		=	-Wall -Wextra -Werror -DNO_COLLEC
+#CFLAGS		=	-g -DNO_COLLEC
 HDIR		=	includes
 SRCDIR		=	src
 HFLAGS		=	-I $(HDIR)
