@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 11:49:01 by yforeau           #+#    #+#             */
-/*   Updated: 2019/06/14 11:49:07 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/09/06 10:37:12 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ typedef struct	s_filldata
 	int			player;
 	int			adv;
 	int			round;
-	int			alone;
 }				t_filldata;
 
 #endif

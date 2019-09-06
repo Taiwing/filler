@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 11:17:49 by yforeau           #+#    #+#             */
-/*   Updated: 2019/06/24 01:58:26 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/09/06 10:39:50 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,11 @@
 #include "t_filldata.h"
 #include "libft.h"
 
-static int	fill_board(t_filldata *mst, const char *line, int *board, int len)
+static int	fill_board(const char *line, int *board, int len)
 {
 	int	j;
 
 	j = 0;
-	mst->alone = mst->alone || !mst->round ? mst->alone : 1;
 	while (line[j] && j < len)
 	{
 		board[j] = P_OBS;
@@ -29,8 +28,6 @@ static int	fill_board(t_filldata *mst, const char *line, int *board, int len)
 			board[j] = P_X;
 		else if (line[j] == '.')
 			board[j] = P_EMPTY;
-		if (!mst->round && !mst->alone && (line[j] == 'o' || line[j] == 'x'))
-			mst->alone = 0;
 		++j;
 	}
 	if (line[j] || j < len)
@@ -54,7 +51,7 @@ int			get_board(t_filldata *mst)
 	while (i < mst->board_height && get_next_line(0, &line) > 0)
 	{
 		if (ft_strlen(line) < 4
-			|| fill_board(mst, line + 4, mst->board[i++], mst->board_width))
+			|| fill_board(line + 4, mst->board[i++], mst->board_width))
 		{
 			free(line);
 			return (1);
