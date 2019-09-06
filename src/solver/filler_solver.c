@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 13:51:33 by yforeau           #+#    #+#             */
-/*   Updated: 2019/06/29 04:25:03 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/09/06 12:55:24 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 #include "t_filldata.h"
 #include "heat_map.h"
 
-static void	skim_board(t_filldata *mst,
+static void	skim_board(t_filldata *mst, int start_i, int start_j,
 		void (*f)(t_filldata *mst, int i, int j))
 {
 	int	i;
 	int	j;
 
-	j = -1;
+	j = start_j;
 	while (++j < mst->board_height)
 	{
-		i = -1;
+		i = start_i;
 		while (++i < mst->board_width)
 			f(mst, i, j);
 	}
@@ -43,17 +43,16 @@ static int	test_pos(t_filldata *mst, int i, int j)
 	{
 		x = -1;
 		while (++x < mst->token_width && cur_pos != 1 && connect < 2)
-		{
 			if (mst->token[y][x] == '*')
 			{
-				if (mst->board[j + y][i + x] == mst->adv)
+				if (j + y < 0 || i + x < 0
+					|| mst->board[j + y][i + x] == mst->adv)
 					cur_pos = 1;
 				else if (mst->board[j + y][i + x] == mst->player)
 					++connect;
 				else
 					cur_pos += mst->board[j + y][i + x];
 			}
-		}
 	}
 	return (cur_pos < 0 && connect == 1 ? cur_pos : INT_MIN);
 }
@@ -64,7 +63,7 @@ static void	put_token(t_filldata *mst, int i, int j)
 	int			cur_pos;
 
 	cur_pos = INT_MIN;
-	if (!i && !j)
+	if (i == 1 - mst->token_width && j == 1 - mst->token_height)
 		last_pos = INT_MIN;
 	if (i + mst->token_width <= mst->board_width
 		&& j + mst->token_height <= mst->board_height)
@@ -80,7 +79,7 @@ static void	put_token(t_filldata *mst, int i, int j)
 void		filler_solver(t_filldata *mst)
 {
 	mst->adv = mst->player == P_O ? P_X : P_O;
-	skim_board(mst, &init_heatmap);
-	skim_board(mst, &fill_heatmap);
-	skim_board(mst, &put_token);
+	skim_board(mst, -1, -1, &init_heatmap);
+	skim_board(mst, -1, -1, &fill_heatmap);
+	skim_board(mst, -mst->token_width, -mst->token_height, &put_token);
 }
