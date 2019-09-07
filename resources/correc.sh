@@ -6,7 +6,7 @@
 #    By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/06 15:19:40 by yforeau           #+#    #+#              #
-#    Updated: 2019/09/06 15:30:56 by yforeau          ###   ########.fr        #
+#    Updated: 2019/09/07 08:22:21 by yforeau          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,17 +16,16 @@
 
 function usage
 {
-	printf "usage: correction.sh [-n round nb] [-m map_folder] [-e champion ]\n\
+	printf "usage: correc.sh [-n round nb] [-m map_folder] [-e champion ]\n\
 	[-c challenger_folder][-o output_folder] [-wp wait after player]\n\
-	[-wm wait after map][-k do not erase outpute on player change]	\n\n"
+	[-wm wait after map][-k do not erase output on player change]	\n\n"
 	printf "Game launcher for the vm playing a champion\n\
 	- till n wins\n\
 	- against a folder of champion\n\
 	- for a folder of map\n\
 	- it will crash on invalid map - champion - player\n\
 	- it will stop if champion loose\n\
-	- use -b in conjunction with wp an wm to check output\n
-	- use sh ./correction.sh [] \033[0;32m 2>&1 | tee whoopwhoop.txt\033[0m to store the output and see it\n"
+	- use sh ./correc.sh [] \033[0;32m 2>&1 | tee whoopwhoop.txt\033[0m to store the output and see it\n"
 }
 
 ########################## Variables initialization ############################
