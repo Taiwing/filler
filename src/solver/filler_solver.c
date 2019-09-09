@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 13:51:33 by yforeau           #+#    #+#             */
-/*   Updated: 2019/09/06 12:55:24 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/09/09 11:30:05 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static int	test_pos(t_filldata *mst, int i, int j)
 			if (mst->token[y][x] == '*')
 			{
 				if (j + y < 0 || i + x < 0
+					|| j + y >= mst->board_height || i + x >= mst->board_width
 					|| mst->board[j + y][i + x] == mst->adv)
 					cur_pos = 1;
 				else if (mst->board[j + y][i + x] == mst->player)
@@ -65,8 +66,6 @@ static void	put_token(t_filldata *mst, int i, int j)
 	cur_pos = INT_MIN;
 	if (i == 1 - mst->token_width && j == 1 - mst->token_height)
 		last_pos = INT_MIN;
-	if (i + mst->token_width <= mst->board_width
-		&& j + mst->token_height <= mst->board_height)
 		cur_pos = test_pos(mst, i, j);
 	if (cur_pos > last_pos)
 	{
