@@ -6,7 +6,7 @@
 #    By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/06 15:19:40 by yforeau           #+#    #+#              #
-#    Updated: 2019/09/07 08:22:21 by yforeau          ###   ########.fr        #
+#    Updated: 2019/09/09 09:36:18 by yforeau          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -157,6 +157,20 @@ do
 					exit 1
 				fi
 			fi
+			result=""
+			result=$(cat filler.trace | grep "error")
+			if [ -n "$result" ]; then
+				echo ""
+				echo "NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO\033[0m"
+				echo "\033[39;1;41mCRASH CHECK OUTPUT FILE\033[0m"
+				echo "NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO\033[0m"
+				echo ""
+				read -p "An error occured - Check if last piece overflow ? (y/n) " answer
+				if [ "$answer" == "n" -o "$answer" == "n" ]; then
+					exit 1
+				fi
+			fi
+			result=$(cat filler.trace | grep "error")
 			if [ $score_temp_eval -gt $score_temp_chal ]; then
 				((total++))
 			elif [ $score_temp_chal -gt $score_temp_eval ]; then

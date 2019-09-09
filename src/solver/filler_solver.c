@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 13:51:33 by yforeau           #+#    #+#             */
-/*   Updated: 2019/09/09 11:30:05 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/09/09 12:01:29 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	put_token(t_filldata *mst, int i, int j)
 	cur_pos = INT_MIN;
 	if (i == 1 - mst->token_width && j == 1 - mst->token_height)
 		last_pos = INT_MIN;
-		cur_pos = test_pos(mst, i, j);
+	cur_pos = test_pos(mst, i, j);
 	if (cur_pos > last_pos)
 	{
 		last_pos = cur_pos;
